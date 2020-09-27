@@ -9,7 +9,7 @@ carpool = CarpoolDto.carpool
 carpool_search = CarpoolDto.carpool_search
 
 
-@api.route('/new drive')
+@api.route('/newDrive')
 class AddDrive(Resource):
     @api.response(201, 'drive successfully created.')
     @api.doc('create a new drive')
@@ -20,7 +20,7 @@ class AddDrive(Resource):
         return save_new_ride(data=data)
 
 
-@api.route('/find drive')
+@api.route('/findDrive')
 class GetDrives(Resource):
     @api.doc('gets all active drives')
     @api.expect(carpool_search, validate=True)

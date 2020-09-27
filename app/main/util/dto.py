@@ -22,17 +22,17 @@ class UserDto:
 class CarpoolDto:
     api = Namespace('carpool', description='carpool')
     carpool = api.model('carpool', {
-        'when': fields.String(required=True, description='carpool date'),
+        'when': fields.Date(required=True, description='carpool date'),
         'start': fields.String(required=True, description=''),
         'destination': fields.String(required=True),
-        'hour': fields.String(required=True),
+        'hour': fields.DateTime(required=True),
         'number_of_sits': fields.Integer(required=True),
         'animal': fields.Boolean(default=False),
         'road6': fields.Boolean(default=False),
         'comments': fields.String(required=False, description='driver comments for the ride')
     })
     carpool_search = api.model('carpool_search', {
-        'when': fields.String(required=True, description='carpool date'),
+        'when': fields.Date(required=True, description='carpool date'),
         'start': fields.String(required=True, description=''),
         'destination': fields.String(required=True),
         'hour': fields.String(required=True),

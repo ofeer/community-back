@@ -47,12 +47,16 @@ def login(data):
             response_object = {
                 'status': 'fail',
                 'message': 'passwords does not match.',
+                'username': data['username'],
+                'password': data['password']
             }
             return response_object
     else:
         response_object = {
             'status': 'fail',
             'message': 'username does not match.',
+            'username': data['username'],
+            'password': data['password']
         }
         return response_object
 
