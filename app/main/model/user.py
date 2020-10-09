@@ -4,10 +4,10 @@ from .. import db, flask_bcrypt
 class User(db.Model):
     """ User Model for storing user related details """
     __tablename__ = "user"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.String(100), unique=True)
+    id = db.Column(db.String(100), primary_key=True, unique=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    username = db.Column(db.String(50))
+    firstName = db.Column(db.String(50))
+    lastName = db.Column(db.String(50))
     password_hash = db.Column(db.String(100))
     ride = db.relationship('Carpool', backref='my_ride')
 

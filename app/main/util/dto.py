@@ -5,14 +5,15 @@ class UserDto:
     api = Namespace('user', description='user related operations')
     user = api.model('user', {
         'email': fields.String(required=True, description='user email address'),
-        'username': fields.String(required=True, description='user username'),
+        'firstName': fields.String(required=True, description='user username'),
+        'lastName': fields.String(required=True, description='user username'),
         'password': fields.String(required=True, description='user password'),
         #  TODO: add student card
     })
 
     user_login = api.model('user_login', {
 
-        'username': fields.String(required=True, description='user username'),
+        'email': fields.String(required=True, description='email'),
         'password': fields.String(required=True, description='user password'),
 
     })
@@ -37,3 +38,4 @@ class CarpoolDto:
         'destination': fields.String(required=True),
         'hour': fields.String(required=True),
     })
+

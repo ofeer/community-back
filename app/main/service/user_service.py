@@ -8,18 +8,26 @@ from app.main.model.user import User
 def save_new_user(data):
     user = User.query.filter_by(email=data['email']).first()  # checks if the email exist already
     if not user:
-        new_user = User(
-            user_id=str(uuid.uuid4()),
-            email=data['email'],
-            username=data['username'],
-            password=data['password'],
-        )
-        save_changes(new_user)
-        response_object = {
-            'status': 'success',
-            'message': 'Successfully registered.'
-        }
-        return response_object
+        if len(data['password']) > 5:
+            new_user = User(
+                id=str(uuid.uuid4()),
+                email=data['email'],
+                firstName=data['firstName'],
+                lastName=data['lastName'],
+                password=data['password'],
+            )
+            save_changes(new_user)
+            response_object = {
+                'status': 'success',
+                'message': 'Successfully registered.'
+            }
+            return response_object
+        else:
+            response_object = {
+                'status': 'fail',
+                'message': 'Password to short',
+            }
+            return response_object
     else:
         response_object = {
             'status': 'fail',
@@ -29,9 +37,9 @@ def save_new_user(data):
 
 
 def login(data):
-    username = data['username']
+    email = data['email']
     password = data['password']
-    user = get_a_user_by_name(username)
+    user = get_a_user_by_email(email)
     if user:
         if User.check_password(user, password):
             access_token = create_access_token(identity=user.id, fresh=True)
@@ -40,14 +48,16 @@ def login(data):
                 'access_token': access_token,
                 'refresh_token': refresh_token,
                 'status': 'success',
-                'message': 'Successfully logged in.'
+                'email': data['email'],
+                'firstName': user.firstName,
+                'lastName': user.lastName
             }
             return response_object
         else:
             response_object = {
                 'status': 'fail',
                 'message': 'passwords does not match.',
-                'username': data['username'],
+                'email': data['email'],
                 'password': data['password']
             }
             return response_object
@@ -55,7 +65,7 @@ def login(data):
         response_object = {
             'status': 'fail',
             'message': 'username does not match.',
-            'username': data['username'],
+            'email': data['email'],
             'password': data['password']
         }
         return response_object
@@ -65,8 +75,8 @@ def get_all_users():
     return User.query.all()
 
 
-def get_a_user_by_name(username):
-    return User.query.filter_by(username=username).first()
+def get_a_user_by_email(email):
+    return User.query.filter_by(email=email).first()
 
 
 def get_a_user_by_id(user_id):

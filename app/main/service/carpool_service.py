@@ -5,7 +5,7 @@ from app.main.model.carpool import Carpool
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
 
-# @jwt_required
+@jwt_required
 def save_new_ride(data):
     #  TODO: add a check that a user upload one drive only (per 6 hours?)
     new_ride = Carpool(
@@ -34,19 +34,34 @@ def to_json(listofrides):
     return rides
 
 
-# @jwt_required
-def list_of_rides(data):
-    rides = Carpool.query.filter_by(when=data['when'], start=data['start'],
+@jwt_required
+def list_of_rides(data):  # TODO: think of all the cases.
+    rides = Carpool.query.filter_by(start=data['start'],
                                     destination=data['destination']).order_by('hour').all()
     if len(rides) == 0:
         response_object = {
             'status': 'success',
-            'message': 'No rides in this date.'
+            'message': []
         }
     else:
         response_object = {
             'status': 'success',
-            'rides': to_json(rides)
+            'message': to_json(rides)
+        }
+    return response_object
+
+
+def get_all_rides():
+    rides = Carpool.query.order_by('hour').all()
+    if len(rides) == 0:
+        response_object = {
+            'status': 'success',
+            'message': []
+        }
+    else:
+        response_object = {
+            'status': 'success',
+            'message': to_json(rides)
         }
     return response_object
 

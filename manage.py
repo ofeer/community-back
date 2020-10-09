@@ -6,7 +6,6 @@ from app.main import create_app, db
 from app import blueprint
 from flask_jwt_extended import JWTManager
 
-
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 app.register_blueprint(blueprint)
 app.app_context().push()
@@ -30,6 +29,9 @@ def test():
     if result.wasSuccessful():
         return 0
     return 1
+
+
+
 
 
 if __name__ == '__main__':
